@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PetShelter.Data
 {
-    class PetShelterDbContext : DbContext
+    public class PetShelterDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
 
