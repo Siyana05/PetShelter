@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PetShelter.Data.Entities;
 using PetShelter.Shared.Dtos;
@@ -53,55 +54,126 @@ namespace PetShelter.Data.Repos
                 throw new ArgumentNullException(nameof(user));
             return this.MapToModel(user);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public Task CreateAsync(TModel model)
+        public async Task CreateAsync(TModel model)
         {
-            throw new NotImplementedException();
+            if (model == null)
+            throw new ArgumentNullException(nameof(model));
+            try
+            {
+                var entity = this.MapToEntity(model);
+                await _dbSet.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (SqlException ex)
+            {
+                await Console.Out.WriteLineAsync($"The system threw an sql exception trying to create{nameof(model)} : {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync($"The system threw a non-sql exception trying to create{nameof(model)} : {ex.Message} ");
+            }
+            
+
+        }
+        public async Task UpdateAsync(TModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            try
+            {
+                var entity = await this._dbSet.FindAsync(model.Id);
+                if (model == null)
+                    throw new ArgumentNullException(nameof(model));
+                _context.Entry(entity).CurrentValues.SetValues(model);
+                await _context.SaveChangesAsync();
+
+            }
+            catch (SqlException ex)
+            {
+                await Console.Out.WriteLineAsync($"The system threw an sql exception trying to create{nameof(model)} : {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync($"The system threw a non-sql exception trying to create{nameof(model)} : {ex.Message} ");
+            }
+
+        }
+        public async Task SaveAsync(TModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+            if (model.Id != 0)
+                await UpdateAsync(model);
+            else
+                await CreateAsync(model);
+
+        }
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await this._dbSet.FindAsync(id);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+            try
+            {
+                _dbSet.Remove(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (SqlException ex)
+            {
+                await Console.Out.WriteLineAsync($"The system threw an sql exception trying to create{nameof(entity)} : {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync($"The system threw a non-sql exception trying to create{nameof(entity)} : {ex.Message} ");
+            }
+        }
+        public Task<bool> ExistsByIdAsync(int id)
+        {
+            return _dbSet.AnyAsync(e => e.Id == id);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task<IEnumerable<TModel>> GetWithPaginationAsync(int pageSize, int pageNumber)
         {
-            throw new NotImplementedException();
+            var paginatedRecords = await _dbSet
+                 .Skip((pageNumber - 1) * pageSize)
+                 .Take(pageSize)
+                 .ToListAsync();
+            return MapToEnumerableOfModel(paginatedRecords);
+        }
+
+        public virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+                disposedValue = true;
+            }
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
-        public Task<bool> ExistsByIdAsync(int id)
+        public class BreedsRepository : BaseRepository<Breed, BreedDto>, IBreedRepository
         {
-            throw new NotImplementedException();
+            public BreedsRepository(PetShelterDbContext context, IMapper mapper) : base(context, mapper)
+            {
+
+            }
         }
 
-        public Task<IEnumerable<TModel>> GetWithPaginationAsync(int pageSize, int padeNumber)
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        public Task SaveAsync(TModel model)
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        public Task UpdateAsync(TModel model)
-        {
-            throw new NotImplementedException();
-        }
+        
+
     }
     
     
