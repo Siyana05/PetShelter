@@ -1,12 +1,20 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using PetShelter.Data;
+using PetShelter.Shared.Security;
+using PetShelter.Shared.Security.Contracts;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PetShelterMVC
@@ -24,6 +32,59 @@ namespace PetShelterMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<PetShelterDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
+            });
+
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var context = scope.ServiceProvider.GetRequiredService<PetShelterDbContext>();
+            //    context.Database.Migrate();
+            //}
+            services.AddAutoMapper(m => m.AddProfile(new AutoMapperConfiguration()));
+            IJwtSettings settings = Configuration.GetSection(typeof(JwtSettings).Name).Get<JwtSettings>();
+
+            services.AddAuthentication(cfg => cfg.DefaultScheme = JwtBearerDefaults.AuthenticationScheme)
+                            .AddJwtBearer(options =>
+                            {
+                                if (options.SecurityTokenValidators.FirstOrDefault() is JwtSecurityTokenHandler jwtSecurityTokenHandler)
+                                {
+                                    jwtSecurityTokenHandler.MapInboundClaims = false;
+                                }
+                                options.RequireHttpsMetadata = false;
+                                options.SaveToken = true;
+                                options.TokenValidationParameters = new TokenValidationParameters
+                                {
+                                    ValidateIssuer = true,
+                                    ValidateAudience = true,
+                                    ValidateLifetime = true,
+                                    ValidateIssuerSigningKey = true,
+                                    ValidIssuer = settings.Issuer,
+                                    ValidAudience = settings.Audience,
+                                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.Key)),
+                                    NameClaimType = JwtRegisteredClaimNames.Sub
+                                };
+                                options.Events = new JwtBearerEvents
+                                {
+                                    OnMessageReceived = context =>
+                                    {
+                                        var accessToken = context.Request.Query["access_token"];
+
+                            // If the request is for our hub...
+                            var path = context.HttpContext.Request.Path;
+                                        if (!string.IsNullOrEmpty(accessToken) &&
+                                            (path.StartsWithSegments("/chathub")))
+                                        {
+                                // Read the token out of the query string
+                                context.Token = accessToken;
+                                        }
+                                        return Task.CompletedTask;
+                                    }
+                                };
+                            });
+
+            services.AddSingleton(settings);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,5 +114,6 @@ namespace PetShelterMVC
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
     }
 }
