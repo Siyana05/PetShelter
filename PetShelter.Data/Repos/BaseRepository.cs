@@ -160,13 +160,6 @@ namespace PetShelter.Data.Repos
             GC.SuppressFinalize(this);
         }
 
-        public class BreedsRepository : BaseRepository<Breed, BreedDto>, IBreedRepository
-        {
-            public BreedsRepository(PetShelterDbContext context, IMapper mapper) : base(context, mapper)
-            {
-
-            }
-        }
 
         
 

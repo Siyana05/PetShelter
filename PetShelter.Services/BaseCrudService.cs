@@ -41,16 +41,6 @@ namespace PetShelter.Services
 
         public Task<bool> ExistsByIdAsync(int id)
             => this._repository.ExistsByIdAsync(id);
-
-
-        [AutoBind]
-        public class BreedsService : BaseCrudService<BreedDto, IBreedRepository>, IBreedsService
-        {
-            public BreedsService(IBreedRepository repository) : base(repository)
-            {
-
-            }
-        }
     }
     
     
