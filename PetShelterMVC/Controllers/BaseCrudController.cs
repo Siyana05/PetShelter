@@ -24,6 +24,31 @@ namespace PetShelterMVC.Controllers
         {
             this._service = service;
             _mapper = mapper;
+
+        }
+        protected const int DefaultPageSize = 10;
+        protected const int DefaultPageNumber = 1;
+        protected virtual Task<string?> Validate(TEditVM editVM)
+        {
+            return Task.FromResult<string?>(null);
+        }
+        protected virtual Task<TEditVM> PrePopulateVMAsync()
+        {
+            return Task.FromResylt(new TEditVM());
+        }
+
+        [HttpGet]
+        public virtual async Task<IActionresult> List(int pageSize = DefaultPageSize, int pageNumber = DefaultPageNumber)
+        {
+            if(pageSize <= 0 ||
+                pageSize > PaginationParameters.MaxPageSize ||
+                pageNumber <= 0)
+            {
+                return BadRequest(Constants.InvalidPagination);
+            }
+            var models = await this._service.GetWithPaginationAsync(pageSize, pageNumber);
+            var mapperModels = _mapper.Map<IEnumerable<TDetailsVM>>(models);
+            return ViewModels(nameod(List), mapperModels);
         }
     }
 }

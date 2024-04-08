@@ -44,6 +44,7 @@ namespace PetShelterMVC
             services.AutoBind(typeof(PetService).Assembly);
             services.AutoBind(typeof(PetRepository).Assembly);
             IJwtSettings settings = Configuration.GetSection(typeof(JwtSettings).Name).Get<JwtSettings>();
+          
 
             services.AddAuthentication(cfg => cfg.DefaultScheme = JwtBearerDefaults.AuthenticationScheme)
                             .AddJwtBearer(options =>
