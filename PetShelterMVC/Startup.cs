@@ -44,50 +44,14 @@ namespace PetShelterMVC
             services.AutoBind(typeof(PetService).Assembly);
             services.AutoBind(typeof(PetRepository).Assembly);
             IJwtSettings settings = Configuration.GetSection(typeof(JwtSettings).Name).Get<JwtSettings>();
-          
 
-            services.AddAuthentication(cfg => cfg.DefaultScheme = JwtBearerDefaults.AuthenticationScheme)
-                            .AddJwtBearer(options =>
-                            {
-                                if (options.SecurityTokenValidators.FirstOrDefault() is JwtSecurityTokenHandler jwtSecurityTokenHandler)
-                                {
-                                    jwtSecurityTokenHandler.MapInboundClaims = false;
-                                }
-                                options.RequireHttpsMetadata = false;
-                                options.SaveToken = true;
-                                options.TokenValidationParameters = new TokenValidationParameters
-                                {
-                                    ValidateIssuer = true,
-                                    ValidateAudience = true,
-                                    ValidateLifetime = true,
-                                    ValidateIssuerSigningKey = true,
-                                    ValidIssuer = settings.Issuer,
-                                    ValidAudience = settings.Audience,
-                                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.Key)),
-                                    NameClaimType = JwtRegisteredClaimNames.Sub
-                                };
-                                options.Events = new JwtBearerEvents
-                                {
-                                    OnMessageReceived = context =>
-                                    {
-                                        var accessToken = context.Request.Query["access_token"];
+            IJwtSettings settings = builder.Configuration.GetSection(typeof(JwtSettings).Name).Get<JwtSettings>();
+            builder.Service.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            builder.Service.AddSingleton(settings);
+ 
 
-                            // If the request is for our hub...
-                            var path = context.HttpContext.Request.Path;
-                                        if (!string.IsNullOrEmpty(accessToken) &&
-                                            (path.StartsWithSegments("/chathub")))
-                                        {
-                                // Read the token out of the query string
-                                context.Token = accessToken;
-                                        }
-                                        return Task.CompletedTask;
-                                    }
-                                };
-                            });
-
-            services.AddSingleton(settings);
+           
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, PetShelterDbContext context)
         {
