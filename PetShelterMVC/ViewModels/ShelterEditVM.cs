@@ -7,5 +7,9 @@ namespace PetShelterMVC.ViewModels
 {
     public class ShelterEditVM
     {
+        [Required]
+        public int PetCapacity { get; set; }
+        [Required]
+        public int LocationId { get; set; }
     }
 }

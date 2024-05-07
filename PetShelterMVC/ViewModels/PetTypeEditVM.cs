@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace PetShelterMVC.ViewModels
 {
-    public class PetTypeEditVM
+    public class PetTypeEditVM : BaseVM
     {
+        [Required]
+        public string Name { get; set; }
+
     }
 }

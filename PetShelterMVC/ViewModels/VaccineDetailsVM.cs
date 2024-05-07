@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace PetShelterMVC.ViewModels
 {
-    public class VaccineDetailsVM
+    public class VaccineDetailsVM : BaseVM
     {
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public virtual List<PetVaccine> PetVaccines { get; set; }
     }
 }
