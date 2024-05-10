@@ -39,13 +39,75 @@
             </div>
         </div>
 
-
-
         <div class="form-group">
             @Html.LabelFor(model => model.IsAdopted, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.IsAdopted)
                 @Html.ValidationMessageFor(model => model.IsAdopted)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdopterId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AdopterId)
+                @Html.ValidationMessageFor(model => model.AdopterId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsEuthanized, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsEuthanized)
+                @Html.ValidationMessageFor(model => model.IsEuthanized)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PetType, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PetType)
+                @Html.ValidationMessageFor(model => model.PetType)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PetTypeId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PetTypeId)
+                @Html.ValidationMessageFor(model => model.PetTypeId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Breed, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Breed)
+                @Html.ValidationMessageFor(model => model.Breed)  
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BreedId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BreedId)
+                @Html.ValidationMessageFor(model => model.BreedId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Shelter, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Shelter)
+                @Html.ValidationMessageFor(model => model.Shelter)  
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShelterId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ShelterId)
+                @Html.ValidationMessageFor(model => model.ShelterId)
             </div>
         </div>
 

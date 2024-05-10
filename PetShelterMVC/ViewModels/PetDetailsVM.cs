@@ -19,7 +19,7 @@ namespace PetShelterMVC.ViewModels
 
         public int PetTypeId { get; set; }
 
-        public  PetTypedetailsVM PetType { get; set; }
+        public  PetTypeDetailsVM PetType { get; set; }
 
         public int BreedId { get; set; }
 

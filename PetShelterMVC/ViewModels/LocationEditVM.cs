@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ namespace PetShelterMVC.ViewModels
 
         [Required]
         public string Country { get; set; }
+
+        public int? ShelterId { get; set; }
 
     }
 }
