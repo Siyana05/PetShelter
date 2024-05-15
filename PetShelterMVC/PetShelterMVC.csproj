@@ -24,8 +24,4 @@
     <ProjectReference Include="..\PetShelter.Shared\PetShelter.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Auth\" />
-  </ItemGroup>
-
 </Project>

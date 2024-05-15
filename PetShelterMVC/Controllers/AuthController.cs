@@ -1,6 +1,14 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
+using PetShelter.Services;
+using PetShelter.Shared.Services.Contracts;
+using PetShelterMVC.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PetShelterMVC.Controllers
@@ -9,12 +17,12 @@ namespace PetShelterMVC.Controllers
     public class AuthController : Controller
     {
         private readonly IUserService usersService;
-        private readonly IRolesService rolesService;
+        private readonly IRoleService rolesService;
         private readonly IMapper mapper;
 
         public AuthController(
-            IUsersService usersService,
-            IRolesService rolesService,
+            IUserService usersService,
+            RoleService rolesService,
             IMapper mapper)
         {
             this.usersService = usersService;
@@ -30,8 +38,8 @@ namespace PetShelterMVC.Controllers
       [HttpPost]
       public async Task<IActionResult> Login([FromForm] LoginVM model)
         {
-            string LoggedUsername = UserController.FindFirst(ClaimTypes.Name)?.Value;
-            if (loggedUsername != null)
+            string LoggedUsername = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (LoggedUsername != null)
             {
                 return Forbid();
             }

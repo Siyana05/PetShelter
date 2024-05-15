@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PetShelter.Shared;
 using PetShelter.Shared.Dtos;
 using PetShelter.Shared.Repos.Contracts;
 using PetShelter.Shared.Services.Contracts;
@@ -15,7 +16,7 @@ namespace PetShelterMVC.Controllers
         where TModel : BaseModel
         where TRepository : IBaseRepository<TModel>
         where TService : IBaseCrudService<TModel, TRepository>
-        where TEditVM : BaseVM
+        where TEditVM : BaseVM, new()
         where TDetailsVM : BaseVM
     {
         protected readonly TService _service;
@@ -35,21 +36,21 @@ namespace PetShelterMVC.Controllers
         }
         protected virtual Task<TEditVM> PrePopulateVMAsync()
         {
-            return Task.FromResylt(new TEditVM());
+            return Task.FromResult(new TEditVM());
         }
 
         [HttpGet]
-        public virtual async Task<IActionresult> List(int pageSize = DefaultPageSize, int pageNumber = DefaultPageNumber)
+        public virtual async Task<IActionResult> List(int pageSize = DefaultPageSize, int pageNumber = DefaultPageNumber)
         {
             if(pageSize <= 0 ||
-                pageSize > PaginationParameters.MaxPageSize ||
+                pageSize > MaxPageSize ||
                 pageNumber <= 0)
             {
                 return BadRequest(Constants.InvalidPagination);
             }
             var models = await this._service.GetWithPaginationAsync(pageSize, pageNumber);
             var mapperModels = _mapper.Map<IEnumerable<TDetailsVM>>(models);
-            return ViewModels(nameod(List), mapperModels);
+            return View(nameof(List), mapperModels);
         }
         [HttpGet]
         public virtual async Task<IActionResult> Details(int id)
