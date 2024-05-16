@@ -55,10 +55,10 @@ namespace PetShelterMVC.Controllers
         [HttpGet]
         public virtual async Task<IActionResult> Details(int id)
         {
-            var model = await this._service.GetByIdIfExistsAsync(id);
+            var model = await this._service.GetByIdExistsAsync(id);
             if (model == default)
             {
-                return BadRequests(Constants.InvalidId);
+                return BadRequest(Constants.InvalidId);
             }
             var mapperModel = _mapper.Map<TDetailsVM>(model);
             return View(mapperModel);
@@ -88,13 +88,13 @@ namespace PetShelterMVC.Controllers
             {
                 return BadRequest(Constants.InvalidId);
             }
-            var model = await this._service.GeyByIdIfExistsAsync(id.Value);
+            var model = await this._service.GetByIdExistsAsync(id.Value);
             if (model == default)
             {
                 return BadRequest(Constants.InvalidId);
             }
             var mappedModel = _mapper.Map<TEditVM>(model);
-            return View(mapperModel);
+            return View(mappedModel);
         }
         [HttpPost]
         public virtual async Task<IActionResult> Edit(int id, TEditVM editVM)
@@ -117,7 +117,7 @@ namespace PetShelterMVC.Controllers
             {
                 return BadRequest(Constants.InvalidId);
             }
-            var model = await this._service.GetByIdIfExistsAsync(id.Value);
+            var model = await this._service.GetByIdExistsAsync(id.Value);
             if(model == default)
             {
                 return BadRequest(Constants.InvalidId);

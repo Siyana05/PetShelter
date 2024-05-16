@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PetShelterMVC.ViewModels
 {
-    public class ShelterEditVM
+    public class ShelterEditVM : BaseVM
     {
         [Required]
         public int PetCapacity { get; set; }
