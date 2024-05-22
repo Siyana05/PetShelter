@@ -1,4 +1,4 @@
-﻿@model PetShelter.ViewModels.UserDetailsVM
+﻿@model PetShelterMVC.ViewModels.UserDetailsVM
 
 @{
     ViewBag.Title = "Details";
@@ -25,7 +25,7 @@
             @Html.DisplayFor(model => model.Password)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.FirsName)
+            @Html.DisplayNameFor(model => model.FirstName)
         </dt>
 
         <dd>
@@ -40,11 +40,11 @@
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.URoleid)
+            @Html.DisplayNameFor(model => model.RoleId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Roleid)
+            @Html.DisplayFor(model => model.RoleId)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.ShelterId)

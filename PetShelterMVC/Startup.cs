@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using PetShelter.Shared.Extensions;
 using PetShelter.Services;
 using PetShelter.Data.Repos;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace PetShelterMVC
 {
@@ -43,11 +44,7 @@ namespace PetShelterMVC
             services.AddAutoMapper(m => m.AddProfile(new AutoMapperConfiguration()));
             services.AutoBind(typeof(PetService).Assembly);
             services.AutoBind(typeof(PetRepository).Assembly);
-            IJwtSettings settings = Configuration.GetSection(typeof(JwtSettings).Name).Get<JwtSettings>();
-
-            IJwtSettings settings = builder.Configuration.GetSection(typeof(JwtSettings).Name).Get<JwtSettings>();
-            builder.Service.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-            builder.Service.AddSingleton(settings);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
  
 
            

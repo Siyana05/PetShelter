@@ -55,7 +55,7 @@ namespace PetShelterMVC.Controllers
         [HttpGet]
         public virtual async Task<IActionResult> Details(int id)
         {
-            var model = await this._service.GetByIdExistsAsync(id);
+            var model = await this._service.GeyByIdIfExistsAsync(id);
             if (model == default)
             {
                 return BadRequest(Constants.InvalidId);
@@ -88,7 +88,7 @@ namespace PetShelterMVC.Controllers
             {
                 return BadRequest(Constants.InvalidId);
             }
-            var model = await this._service.GetByIdExistsAsync(id.Value);
+            var model = await this._service.GeyByIdIfExistsAsync(id.Value);
             if (model == default)
             {
                 return BadRequest(Constants.InvalidId);
@@ -117,7 +117,7 @@ namespace PetShelterMVC.Controllers
             {
                 return BadRequest(Constants.InvalidId);
             }
-            var model = await this._service.GetByIdExistsAsync(id.Value);
+            var model = await this._service.GeyByIdIfExistsAsync(id.Value);
             if(model == default)
             {
                 return BadRequest(Constants.InvalidId);
