@@ -12,11 +12,11 @@ namespace PetShelter.Shared.Services.Contracts
         where TModel : BaseModel
         where TRepository : IBaseRepository<TModel>
     {
-        Task<TModel> GetByIdExistsAsync(int id);
         Task SaveAsync(TModel model);
         Task DeleteAsync(int id);
         Task<IEnumerable<TModel>> GetWithPaginationAsync(int pageSize, int pageNumber);
         Task<bool> ExistsByIdAsync(int id);
+        Task<TModel> GeyByIdIfExistsAsync(int id);
     }
     
 }

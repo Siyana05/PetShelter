@@ -33,7 +33,7 @@ namespace PetShelter.Services
         public virtual Task DeleteAsync(int id)
             => this._repository.DeleteAsync(id);
 
-        public virtual Task<TModel> GetByIdExistsAsync(int id)
+        public virtual Task<TModel> GeyByIdIfExistsAsync(int id)
             => this._repository.GetByIdAsync(id);
 
         public virtual Task<IEnumerable<TModel>> GetWithPaginationAsync(int pageSize, int pageNumber)
