@@ -27,6 +27,78 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a>
+                        </li>
+                        @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
+                        Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Breed" asp-action="List"></a>
+                            </li>
+                        }
+                        @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
+                        Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Location" asp-action="List"></a>
+                            </li>
+                        }
+                        @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
+                        Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Pet" asp-action="List"></a>
+                            </li>
+                        }
+                        @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
+                        Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="PetType" asp-action="List"></a>
+                            </li>
+                        }
+                        @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
+                        Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="PetVaccine" asp-action="List"></a>
+                            </li>
+                        }
+                        @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
+                        Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="List"></a>
+                            </li>
+                        }
+                        @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
+                        Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Shelter" asp-action="List"></a>
+                            </li>
+                        }
+                        @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
+                        Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="List"></a>
+                            </li>
+                        }
+                        @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
+                        Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Vaccine" asp-action="List"></a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -48,69 +120,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
-    @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
-    Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Breed" asp-action="List"></a>
-        </li>
-    }
-    @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
-    Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Location" asp-action="List"></a>
-        </li>
-    }
-    @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
-    Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Pet" asp-action="List"></a>
-        </li>
-    }
-    @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
-    Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="PetType" asp-action="List"></a>
-        </li>
-    }
-    @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
-    Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="PetVaccine" asp-action="List"></a>
-        </li>
-    }
-    @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
-    Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="List"></a>
-        </li>
-    }
-    @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
-    Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Shelter" asp-action="List"></a>
-        </li>
-    }
-    @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
-    Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="List"></a>
-        </li>
-    }
-    @if (Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Employee.ToString() ||
-    Context.User?.FindFirst(ClaimTypes.Role)?.Value == UserRole.Admin.ToString())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Vaccine" asp-action="List"></a>
-        </li>
-    }
+
 
 </body>
 </html>
