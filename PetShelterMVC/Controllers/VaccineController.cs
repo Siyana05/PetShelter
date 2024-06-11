@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace PetShelterMVC.Controllers
 {
     
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin, Employee")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Admin, Employee, User")]
         public class VaccineController : BaseCrudController<VaccineDto, IVaccineRepository, IVaccineService, VaccineEditVM, VaccineDetailsVM>
         {
             public VaccineController(IVaccineService service, IMapper mapper) : base(service, mapper)

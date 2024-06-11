@@ -1,27 +1,78 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using EntityFrameworkCore.UseRowNumberForPaging;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using PetShelter;
+using PetShelter.Data;
+using PetShelter.Data.Repos;
+using PetShelter.Services;
+using PetShelter.Shared.Extensions;
+using PetShelter.Shared.Security;
+using PetShelter.Shared.Security.Contracts;
+using PetShelter.Shared.Services.Contracts;
+using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
+using System.Text;
 
-namespace PetShelterMVC
+public class Program
 {
-    public class Program
+    private static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Add services to the container.
+        builder.Services.AddControllersWithViews();
+
+
+
+        builder.Services.AddDbContext<PetShelterDbContext>(options =>
         {
-            CreateHostBuilder(args).Build().Run();
+            options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"],
+                i => i.UseRowNumberForPaging());
+        });
+
+
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie();
+
+
+        builder.Services.AddAutoMapper(assemblies: Assembly.GetExecutingAssembly());
+
+        builder.Services.AutoBind(typeof(PetService).Assembly);
+        builder.Services.AutoBind(typeof(PetRepository).Assembly);
+        var app = builder.Build();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<PetShelterDbContext>();
+            // Automatically update database
+            context.Database.Migrate();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-        
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Home/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+        app.UseAuthentication();
+
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
+
+        app.Run();
     }
 }

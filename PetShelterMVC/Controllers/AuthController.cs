@@ -75,7 +75,7 @@ namespace PetShelter.Controllers
 
             }
 
-            if (!await this.usersService.CanUserLoginAsync(model.Username, model.Password))
+            if (!await usersService.CanUserLoginAsync(model.Username, model.Password))
 
             {
 

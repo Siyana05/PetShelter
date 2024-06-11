@@ -24,7 +24,7 @@ namespace PetShelter.Data.Repos
         public async Task<bool> CanUserLoginAsync(string username, string password)
         {
             var hashedPassword = (await this.GetByUsernameAsync(username))?.Password;
-            return PasswordHasher.VerifyPassword(hashedPassword, password);
+            return PasswordHasher.VerifyPassword(password, hashedPassword);
         }
 
         public async Task<UserDto> GetByUsernameAsync(string username)
