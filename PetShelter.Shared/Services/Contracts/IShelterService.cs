@@ -11,6 +11,6 @@ namespace PetShelter.Shared.Services.Contracts
 
     public interface IShelterService : IBaseCrudService<ShelterDto, IShelterRepository>
     {
-
+       
     }
 }

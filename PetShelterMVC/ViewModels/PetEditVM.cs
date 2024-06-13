@@ -1,4 +1,5 @@
-﻿using PetShelter.Data.Entities;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PetShelter.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -38,6 +39,10 @@ namespace PetShelterMVC.ViewModels
         public virtual User Giver { get; set; }
 
         public virtual Shelter Shelter { get; set; }
+
+        public IEnumerable<SelectListItem> BreedList { get; set; }
+        public IEnumerable<SelectListItem> PetTypeList { get; set; }
+        public IEnumerable<SelectListItem> ShelterList { get; set; }
 
     }
 }

@@ -10,6 +10,5 @@ namespace PetShelter.Shared.Services.Contracts
 {
     public interface IVaccineService : IBaseCrudService<VaccineDto, IVaccineRepository>
     {
-
     }
 }

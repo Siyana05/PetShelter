@@ -13,5 +13,6 @@ namespace PetShelterMVC.ViewModels
         public string Description { get; set; }
 
         public virtual List<PetVaccine> PetVaccines { get; set; }
+        public virtual List<Pet> Pets { get; set; }
     }
 }
